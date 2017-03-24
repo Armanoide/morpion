@@ -1,20 +1,40 @@
-#include <strings.h>
-#include <stdlib.h>
-#include<stdio.h>
-#include<sys/socket.h>
-#include<arpa/inet.h>
-#include <unistd.h>
+//http://broux.developpez.com/articles/c/sockets/
+//http://www.binarytides.com/socket-programming-c-linux-tutorial/
 
-typedef struct server_morpion {
-  int socket_server;
-  
-}t_serv;
+#include "server.h"
 
-int init_server(t_serv *s) {
+void close_server() {
+  t_server* server;
+
+  server = get_server();
+  if (server != NULL && server->socket_server != -1) {
+    close(server->socket_server);
+  }
+}
+
+
+t_server* get_server() {
+  static t_server* server = NULL;
+
+  if (server == NULL) {
+    server = (t_server*) malloc(sizeof(t_server*));
+  }
+  return server;
+}
+
+void kill_server(int s) {
+
+  close_server();
+  printf("server close\n");
+  exit(0);
+}
+
+
+int init_server(t_server *s) {
 
   struct sockaddr_in serv_addr;
   
-  s->socket_server = socket(AF_INET, SOCK_STREAM , 0);
+  s->socket_server = socket(AF_INET, SOCK_STREAM, 0);
   if (s->socket_server == -1)
     {
       printf("Could not create socket");
@@ -32,27 +52,36 @@ int init_server(t_serv *s) {
     }
 
   listen(s->socket_server, 3);
+  signal(SIGINT, kill_server);
+  
   return 0;
 }
 
-
-
 int main() {
 
-  t_serv s;
-  int client_fd;
-  struct sockaddr_in client_addr;
+  t_player* player;
+  t_game* game;
 
-  int c = sizeof(struct sockaddr_in);
-  if (init_server(&s) == 0) {
-    client_fd = accept(s.socket_server, (struct sockaddr *)&client_addr, (socklen_t*)&c);
-    if (client_fd < 0)
-      {
-        printf("accept failed");
+  if (init_server(get_server()) == 0) {
+    while(1) {
+      player = accept_player(get_server());
+      if (player != NULL){
+        continue;
       }
-  }
+      int pid = fork();
+      if (pid == 0) {
 
-  write(client_fd, "coucou", 6);
-  close(s.socket_server);
+        get_available_game();
+        
+      } else if (pid < 0) {
+        delete_player(player);        
+      } else {
+
+      }      
+      game = create_game();
+    }
+  }
+  
   return EXIT_SUCCESS;
 }
+

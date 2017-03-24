@@ -7,24 +7,26 @@ LDFLAGS	+= -L.
 
 CFLAGS	+= -Iinclude
 
-SRCS	:= server.c
+SRCS_SERVER	:= 	server.c \
+				player.c \
+				game.c
 
-OBJS	:= $(SRCS:.c=.o)
+OBJS_SERVER	:= $(SRCS_SERVER:.c=.o)
 
-NAME	:= server
+NAME_SERVER	:= server
 
 TMP_FILE	:= *.*~ Makefile~
 
-all: $(NAME)
+all: $(NAME_SERVER)
 
-$(NAME): $(OBJS)
-	$(CC) -o $(NAME) $(OBJS) $(LDFLAGS)
+$(NAME_SERVER): $(OBJS_SERVER)
+	$(CC) -o $(NAME_SERVER) $(OBJS_SERVER) $(LDFLAGS)
 
 clean:
-	$(RM) $(OBJS) $(TMP_FILE)
+	$(RM) $(OBJS_SERVER) $(TMP_FILE)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME_SERVER)
 
 re: fclean all
 
