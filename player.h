@@ -9,5 +9,5 @@
 
 t_player* accept_player();
 void delete_player(t_player* p);
-
+void set_name(t_player* player);
 #endif

@@ -37,7 +37,7 @@ int init_server(t_server *s) {
   s->socket_server = socket(AF_INET, SOCK_STREAM, 0);
   if (s->socket_server == -1)
     {
-      printf("Could not create socket");
+      printf("Could not create socket\n");
       return 1;
     }
 
@@ -47,7 +47,7 @@ int init_server(t_server *s) {
   serv_addr.sin_port = htons(7777);
   if (bind(s->socket_server, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
     {
-      printf("bind fail");
+      printf("bind fail\n");
       return 1;
     }
 
@@ -61,27 +61,27 @@ int main() {
 
   t_player* player;
   t_game* game;
+  int pid;
 
   if (init_server(get_server()) == 0) {
     while(1) {
       player = accept_player(get_server());
-      if (player != NULL){
+      if (player == NULL){
+        printf("client fail to connect\n");
         continue;
       }
-      int pid = fork();
-      if (pid == 0) {
-
-        get_available_game();
-        
-      } else if (pid < 0) {
-        delete_player(player);        
-      } else {
-
-      }      
-      game = create_game();
+      //      int pid = fork();
+      //      if (pid == 0) {
+        printf("client connected\n");
+        pthread_t thread_player;
+        pthread_create (&thread_player, NULL, start_game, player);
+        //        pthread_join (thread_player, NULL);
+        //      } else if (pid > 0) {
+        //      } else {
+        //        delete_player(player);
+        //      }
     }
   }
   
   return EXIT_SUCCESS;
 }
-

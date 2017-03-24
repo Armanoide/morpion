@@ -4,9 +4,14 @@
 
 typedef struct game_morpion {
   char **map;
+  struct player_morpion* player_1;
+  struct player_morpion* player_2;
+  struct game_morpion *prev;
+  struct game_morpion *next;
 }t_game;
 
 typedef struct player_morpion {
+  char* name;
   int socket;
   t_game* game;
 }t_player;
