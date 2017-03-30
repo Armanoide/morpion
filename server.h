@@ -11,6 +11,8 @@
 #include "game.h"
 #include "player.h"
 
+#define PORT 7777
+
 void close_server(void);
 
 #endif

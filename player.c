@@ -1,14 +1,27 @@
 #include "player.h"
 
+int send_to_player(t_game* game, t_player *player, char* buffer) {
+  if (write(player->socket, buffer, strlen(buffer)) <= 0){
+    notify_other_user_disconnected(game);
+    return RET_ERROR;
+  }
+  return RET_SUCCESS;
+}
+
+void notify_other_user_disconnected(t_game* game) {
+  
+}
+
+
 void set_name(t_player* player) {
 
   char buffer[250];
-  int length;
+  unsigned long length;
   char* name_test;
   
   while(1) {
     read(player->socket, buffer, 250);
-    name_test = strstr(buffer,"//n:");
+    name_test = strstr(buffer, I_NAME);
     if (name_test == NULL) {
       write(player->socket, MSG_KO, 6);
       continue;
@@ -21,10 +34,12 @@ void set_name(t_player* player) {
   }
 }
 
+
+
 void delete_player(t_player* p) {
 
   if (p->socket) {
-    write(p->socket, MSG_DISCONNECTED, 16);
+    write(p->socket, I_DISCONNECTED, strlen(I_DISCONNECTED));
     close(p->socket);
   }
 }

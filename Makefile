@@ -9,18 +9,19 @@ CFLAGS	+= -Iinclude
 
 SRCS_SERVER	:= 	server.c \
 				player.c \
-				game.c
+				game.c \
+				instruction_game.c
 
 OBJS_SERVER	:= $(SRCS_SERVER:.c=.o)
 
 NAME_SERVER	:= server
 
-TMP_FILE	:= *.*~ Makefile~
+TMP_FILE	:= *.*~ Makefile~ 
 
 all: $(NAME_SERVER)
 
 $(NAME_SERVER): $(OBJS_SERVER)
-	$(CC) -o $(NAME_SERVER) $(OBJS_SERVER) $(LDFLAGS)
+	$(CC) -o $(NAME_SERVER) $(OBJS_SERVER) $(LDFLAGS) -g -pthreads
 
 clean:
 	$(RM) $(OBJS_SERVER) $(TMP_FILE)

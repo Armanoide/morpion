@@ -17,7 +17,7 @@ t_server* get_server() {
   static t_server* server = NULL;
 
   if (server == NULL) {
-    server = (t_server*) malloc(sizeof(t_server*));
+    server = (t_server*) malloc(sizeof(t_server));
   }
   return server;
 }
@@ -59,13 +59,16 @@ int init_server(t_server *s) {
 
 int main() {
 
+    t_server* server;
   t_player* player;
-  t_game* game;
-  int pid;
+//  t_game* game;
+//  int pid;
 
-  if (init_server(get_server()) == 0) {
+    server = get_server();
+    server->games = NULL;
+  if (init_server(server) == 0) {
     while(1) {
-      player = accept_player(get_server());
+      player = accept_player(server);
       if (player == NULL){
         printf("client fail to connect\n");
         continue;
