@@ -8,6 +8,8 @@
 
 #define SIZE_MAP 3
 
+void prepare_next_game(t_player* player, int ask_new_game);
+void exec_instruction(t_req_game* req, t_game* game, t_player* player);
 void instruction_transmet_comment(t_req_game* req, t_game* game, t_player* player);
 void instruction_get_value(t_req_game* req, t_game* game, t_player* player);
 void instruction_transmet_new_value(t_req_game* req, t_game* game, int y, int x);
@@ -18,5 +20,7 @@ t_req_game* read_instruction(t_game*, t_player*);
 void run_game(t_game*, t_player*);
 t_game* create_game(t_player*);
 t_game* get_available_game(t_player*);
+void clear_game(t_game* game);
 void* start_game(void*);
+int get_winner_game(t_game* game);
 #endif
