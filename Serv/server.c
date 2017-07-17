@@ -61,8 +61,7 @@ int main() {
 
     t_server* server;
     t_player* player;
-    //  t_game* game;
-    //  int pid;
+
 
     server = get_server();
     server->games = NULL;
@@ -73,16 +72,10 @@ int main() {
                 printf("client fail to connect\n");
                 continue;
             }
-            //      int pid = fork();
-            //      if (pid == 0) {
             printf("client connected\n");
             pthread_t thread_player;
             pthread_create (&thread_player, NULL, start_game, player);
-            //        pthread_join (thread_player, NULL);
-            //      } else if (pid > 0) {
-            //      } else {
-            //        delete_player(player);
-            //      }
+
         }
     }
     

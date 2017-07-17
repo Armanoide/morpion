@@ -188,7 +188,8 @@ t_req_game* read_instruction(t_game* game, t_player* player) {
     req->type = UNKNOWN;
 
     bzero(req->buffer, SIZE_BUFFER_READ);
-    if (read(player->socket, req->buffer, SIZE_BUFFER_READ) <= 0) {
+    read(player->socket, req->buffer, SIZE_BUFFER_READ);
+    if (strlen(req->buffer) == 0) {
         printf("read error\n");
         req->type = ERROR_READ;
         return req;
