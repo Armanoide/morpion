@@ -4,17 +4,17 @@
 
 void exec_instruction(t_req_game* req, t_game* game, t_player* player) {
     switch (req->type)
-    {
-        case ERROR_READ : notify_other_user_disconnected(game)                  ; break;
-        case COMMENT    : instruction_transmet_comment(req, game, player)       ; break;
-        case EXIT       : /*send_to_player(game, player, MSG_KO_CMD) */         ; break;
-        case GIVE_UP    : /*send_to_player(game, player, MSG_KO_CMD) */         ; break;
-        case UNKNOWN    : send_to_player(game, player, MSG_KO_CMD)              ; break;
-        case SET_VALUE  : instruction_set_value(req, game, player)              ; break;
-        case GET_VALUE  : instruction_get_value(req, game, player)              ; break;
-        case DISPLAY_MAP: instruction_display_map(req, game, player)            ; break;
-        case COUNT_HIT  : instruction_get_hit_count(req, game, player)          ; break;
-    }
+      {
+      case ERROR_READ : notify_other_user_disconnected(game)                  ; break;
+      case COMMENT    : instruction_transmet_comment(req, game, player)       ; break;
+      case EXIT       : /*send_to_player(game, player, MSG_KO_CMD) */         ; break;
+      case GIVE_UP    : /*send_to_player(game, player, MSG_KO_CMD) */         ; break;
+      case UNKNOWN    : send_to_player(game, player, MSG_KO_CMD)              ; break;
+      case SET_VALUE  : instruction_set_value(req, game, player)              ; break;
+      case GET_VALUE  : instruction_get_value(req, game, player)              ; break;
+      case DISPLAY_MAP: instruction_display_map(req, game, player)            ; break;
+      case COUNT_HIT  : instruction_get_hit_count(req, game, player)          ; break;
+      }
 }
 
 

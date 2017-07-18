@@ -60,6 +60,21 @@ void notify_other_user_disconnected(t_game* game) {
     if (game == NULL) {
         return;
     }
+    t_player* player_1 = game->player_1;
+    t_player* player_2 = game->player_2;
+
+    if (player_1 == NULL || player_2 == NULL) {
+      return;
+    }
+    
+    delete_player(player_1);
+    delete_player(player_2);
+
+    free(player_1);
+    free(player_2);
+
+    game->player_1 = NULL;
+    game->player_2 = NULL;
 }
 
 

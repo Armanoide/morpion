@@ -153,8 +153,10 @@ void run_game(t_game* game, t_player* player) {
             }
         } else {
             printf("error durring select\n");
+            break;
         }
     }
+    pthread_exit(NULL);
 }
 
 

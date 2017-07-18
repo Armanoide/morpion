@@ -160,16 +160,13 @@ int reverse_get_coordinate(t_client* client){
 
 int read_instruction(t_client* client) {
   char buffer[4096];
-  int p;
+  int p, ret;
   
   bzero(buffer, 4096);
-  if (read(client->socket_client, buffer, 4096) == -1) {
+  if ((ret = read(client->socket_client, buffer, 4096)) == -1 || ret == 0) {
     return 1;
   }
 
-  //debug
-  // endwin();
-  // printf("[%s]\n", buffer);
   if (strstr(buffer, I_TURN) != NULL) {
     client->my_turn = 1;
   }
@@ -240,8 +237,14 @@ void run_client_game(t_client* client) {
         a = getch();    
       }
       if (FD_ISSET(client->socket_client, &readfds)) {
-        read_instruction(client);
+        if (read_instruction(client) == 1) {
+          display_message_at_center("An error occured maybe other player gone ... :/ Press any key to quit", 1);
+          break;
+        }
       }
+    } else {
+      display_message_at_center("An error occured maybe other player gone ... :/ Press any key to quit", 1);
+      break;
     }
 
     if (a == 113) {
@@ -273,6 +276,8 @@ void run_client_game(t_client* client) {
       }
     }
   }
+  echo();
+  nodelay(stdscr, FALSE);
   getch();
 }
 
